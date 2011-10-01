@@ -4,4 +4,5 @@
     <string name="app_name">WikiSearch</string>
     <string name="topic">Search for topic</string>
     <string name="search">Search</string>
+    <string name="speak">Speak</string>
 </resources>
