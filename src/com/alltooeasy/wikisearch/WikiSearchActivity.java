@@ -7,15 +7,38 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WikiSearchActivity extends Activity {
+    
+    final static private String TAG = "WikiSearchActivity";
+
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1110011602;
+
+    @Override
+    protected void onActivityResult( int requestCode, int resultCode,
+            Intent data )
+    {
+        switch ( requestCode )
+        {
+            case VOICE_RECOGNITION_REQUEST_CODE:
+                if ( resultCode == RESULT_OK )
+                {
+                    ArrayList<String> matches = data.getStringArrayListExtra( RecognizerIntent.EXTRA_RESULTS );
+                    Log.i( TAG, "Got result count=" + matches.size() + ": " + matches );
+                    EditText fldTopic = (EditText)findViewById( R.id.editText1 );
+                    fldTopic.setText( matches.get( 0 ) );
+                }
+                break;
+        }
+    }
 
     /** Called when the activity is first created. */
     @Override
@@ -75,8 +98,8 @@ public class WikiSearchActivity extends Activity {
     public void onResume()
     {
         super.onResume();
-        final EditText fldTopic = (EditText)findViewById( R.id.editText1 );
-        fldTopic.setText( "" );
+//        final EditText fldTopic = (EditText)findViewById( R.id.editText1 );
+//        fldTopic.setText( "" );
     }
     
     /**
