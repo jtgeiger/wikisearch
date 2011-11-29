@@ -1,3 +1,13 @@
+/*========================================================================
+| WikiSearchActivity Class
+|=========================================================================
+| Copyright (C) 2011 Joel Geiger.
+| All rights reserved.
+|=========================================================================
+| Change notice:
+| 09/26/11  JTG  Original version.
+|=======================================================================*/
+
 package com.alltooeasy.wikisearch;
 
 import android.app.Activity;
@@ -16,15 +26,32 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WikiSearchActivity extends Activity {
+//==================================================
+
+public class WikiSearchActivity extends Activity
+{
     
     final static private String TAG = "WikiSearchActivity";
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1110011602;
 
+//==================================================
+
+    public WikiSearchActivity(){}   //No-op.
+    
+//==================================================
+    
+    private void launch( String uri )
+    {
+        Intent intent = new Intent( Intent.ACTION_VIEW );
+        intent.setData( Uri.parse( uri ) );
+        startActivity( intent );
+    }
+    
+//==================================================
+    
     @Override
-    protected void onActivityResult( int requestCode, int resultCode,
-            Intent data )
+    protected void onActivityResult( int requestCode, int resultCode, Intent data )
     {
         switch ( requestCode )
         {
@@ -40,11 +67,14 @@ public class WikiSearchActivity extends Activity {
         }
     }
 
+//==================================================
+
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    public void onCreate( Bundle savedInstanceState )
+    {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.main );
         
         Button speakButton = (Button)findViewById( R.id.btnSpeak );
         
@@ -52,9 +82,9 @@ public class WikiSearchActivity extends Activity {
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
           new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        if (activities.size() != 0)
+        if ( activities.size() != 0 )
         {
-          speakButton.setOnClickListener( new OnClickListener()
+            speakButton.setOnClickListener( new OnClickListener()
             {
                 
                 @Override
@@ -66,8 +96,8 @@ public class WikiSearchActivity extends Activity {
         }
         else
         {
-          speakButton.setEnabled(false);
-          speakButton.setText(R.string.nospeak);
+            speakButton.setEnabled(false);
+            speakButton.setText(R.string.nospeak);
         }
 
         
@@ -86,14 +116,9 @@ public class WikiSearchActivity extends Activity {
                 }
             } );
     }
-    
-    private void launch( String uri )
-    {
-        Intent intent = new Intent( Intent.ACTION_VIEW );
-        intent.setData( Uri.parse( uri ) );
-        startActivity( intent );
-    }
-    
+
+//==================================================
+
     @Override
     public void onResume()
     {
@@ -102,15 +127,19 @@ public class WikiSearchActivity extends Activity {
 //        fldTopic.setText( "" );
     }
     
+//==================================================
+    
     /**
      * Fire an intent to start the speech recognition activity.
      */
-    private void startVoiceRecognitionActivity() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+    private void startVoiceRecognitionActivity()
+    {
+        Intent intent = new Intent( RecognizerIntent.ACTION_RECOGNIZE_SPEECH );
+        intent.putExtra( RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM );
         //intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.app_name);
-        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        startActivityForResult( intent, VOICE_RECOGNITION_REQUEST_CODE );
     }
 
+//==================================================
 }
