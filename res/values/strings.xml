@@ -5,4 +5,5 @@
     <string name="topic">Search for topic</string>
     <string name="search">Search</string>
     <string name="speak">Speak</string>
+    <string name="nospeak">Speech Recognizer not present</string>
 </resources>
