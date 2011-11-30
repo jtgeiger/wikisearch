@@ -10,6 +10,8 @@
 
 package com.alltooeasy.wikisearch;
 
+import com.alltooeasy.wikisearch.ui.EditUrlActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +20,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,9 +35,11 @@ import java.util.List;
 public class WikiSearchActivity extends Activity
 {
     
-    final static private String TAG = "WikiSearchActivity";
+    final static private String TAG = WikiSearchActivity.class.getSimpleName();;
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1110011602;
+    
+    final static private int ID_SEARCH_URL = 1111291939;
 
 //==================================================
 
@@ -53,6 +59,8 @@ public class WikiSearchActivity extends Activity
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data )
     {
+        Log.i( TAG, getClass().getName() + ".onActivityResult." );
+        
         switch ( requestCode )
         {
             case VOICE_RECOGNITION_REQUEST_CODE:
@@ -71,9 +79,12 @@ public class WikiSearchActivity extends Activity
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate( Bundle savedInstanceState )
+    protected void onCreate( Bundle savedInstanceState )
     {
+        Log.i( TAG, getClass().getName() + ".onCreate." );
+        
         super.onCreate( savedInstanceState );
+        
         setContentView( R.layout.main );
         
         Button speakButton = (Button)findViewById( R.id.btnSpeak );
@@ -118,10 +129,46 @@ public class WikiSearchActivity extends Activity
     }
 
 //==================================================
+    
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu )
+    {
+        Log.i( TAG, getClass().getName() + ".onCreateOptionsMenu." );
+        
+        super.onCreateOptionsMenu( menu );
+        
+        menu.add( Menu.NONE, ID_SEARCH_URL, Menu.NONE, R.string.searchurl );
+        
+        return true;
+    }
+
+//==================================================
+    
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        final int itemId = item.getItemId();
+        
+        Log.i( TAG, getClass().getName() + ".onOptionsItemSelected( " + itemId + " )." );
+        
+        switch ( itemId )
+        {
+            case ID_SEARCH_URL:
+                startActivity( new Intent( this, EditUrlActivity.class ) );
+                return true;
+            
+            default:
+                throw new UnsupportedOperationException( "Unexpected menu item=" + itemId );
+        }
+    }
+    
+//==================================================
 
     @Override
-    public void onResume()
+    protected void onResume()
     {
+        Log.i( TAG, getClass().getName() + ".onResume." );
+        
         super.onResume();
 //        final EditText fldTopic = (EditText)findViewById( R.id.editText1 );
 //        fldTopic.setText( "" );

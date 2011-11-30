@@ -6,4 +6,7 @@
     <string name="search">Search</string>
     <string name="speak">Speak</string>
     <string name="nospeak">Speech Recognizer not present</string>
+    <string name="searchurl">Search URL</string>
+    <string name="editUrlInstruction">Define the target search URL. Use %s to insert the search term.</string>
+    <string name="defaultSearchUrl">http://en.wikipedia.org/wiki/Special:Search?search=%s</string>
 </resources>
