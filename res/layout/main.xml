@@ -4,11 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/topic"
-    />
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -18,14 +13,21 @@
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:hint="@string/topic" />
 
-    <Button
-        android:id="@+id/button1"
+    <ImageButton
+        android:id="@+id/btnSpeak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search" />
+        android:src="@android:drawable/ic_btn_speak_now" />
 
 </LinearLayout>
-<Button android:text="@string/speak" android:id="@+id/btnSpeak" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+
+<Button
+    android:id="@+id/button1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/search" />
+
 </LinearLayout>

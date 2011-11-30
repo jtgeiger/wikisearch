@@ -10,8 +10,6 @@
 
 package com.alltooeasy.wikisearch;
 
-import com.alltooeasy.wikisearch.ui.EditUrlActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +24,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.alltooeasy.wikisearch.ui.EditUrlActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,7 @@ public class WikiSearchActivity extends Activity
         
         setContentView( R.layout.main );
         
-        Button speakButton = (Button)findViewById( R.id.btnSpeak );
+        ImageButton speakButton = (ImageButton)findViewById( R.id.btnSpeak );
         
      // Check to see if a recognition activity is present
         PackageManager pm = getPackageManager();
@@ -107,8 +108,8 @@ public class WikiSearchActivity extends Activity
         }
         else
         {
+            Log.i( TAG, "Speech Recognizer not present." );
             speakButton.setEnabled(false);
-            speakButton.setText(R.string.nospeak);
         }
 
         
