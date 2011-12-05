@@ -12,10 +12,12 @@ package com.alltooeasy.wikisearch;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Menu;
@@ -26,10 +28,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.alltooeasy.wikisearch.ui.EditUrlActivity;
+import com.alltooeasy.wikisearch.ui.PrefActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 //==================================================
 
@@ -41,6 +44,8 @@ public class WikiSearchActivity extends Activity
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1110011602;
     
     final static private int ID_SEARCH_URL = 1111291939;
+    
+    final static private String SEARCH_VAR = "%s";
 
 //==================================================
 
@@ -88,6 +93,12 @@ public class WikiSearchActivity extends Activity
         
         setContentView( R.layout.main );
         
+//        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+//        Editor prefEditor = defaultSharedPreferences.edit();
+//        prefEditor.clear();
+//        prefEditor.commit();
+//        PreferenceManager.setDefaultValues( this, R.xml.settings, false );
+        
         ImageButton speakButton = (ImageButton)findViewById( R.id.btnSpeak );
         
      // Check to see if a recognition activity is present
@@ -111,7 +122,6 @@ public class WikiSearchActivity extends Activity
             Log.i( TAG, "Speech Recognizer not present." );
             speakButton.setEnabled(false);
         }
-
         
         //launch( "http://www.alltooeasy.com" );
         Button btnSearch = (Button)findViewById( R.id.button1 );
@@ -123,7 +133,21 @@ public class WikiSearchActivity extends Activity
                 {
                     EditText fldTopic = (EditText)findViewById( R.id.editText1 );
                     String topic = fldTopic.getText().toString();
-                    String url = "http://en.wikipedia.org/wiki/Special:Search?search=" + topic;
+                    //SharedPreferences prefs = getPreferences( MODE_PRIVATE );
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( WikiSearchActivity.this );
+                    Map<String, ?> allPrefs = prefs.getAll();
+                    Log.i( TAG, "All prefs: \n" + allPrefs );
+                    String pref_url = getString( R.string.pref_searchurl );
+                    String gotUrl = prefs.getString( pref_url, null );
+                    Log.i( TAG, "Url pref \"" + pref_url + "\"=\"" + gotUrl + "\"" );
+                    if ( gotUrl == null || gotUrl.trim().length() == 0 )
+                    {
+                        gotUrl = getString( R.string.defaultSearchUrl );
+                        Log.i( TAG, "Using default URL." );
+                    }
+                    Log.i( TAG, "Target url=\"" + gotUrl + "\"" );
+                    String url = gotUrl.replace( SEARCH_VAR, topic );
+                    Log.i( TAG, "Final url=\"" + url + "\"" );
                     launch( url );
                 }
             } );
@@ -138,7 +162,7 @@ public class WikiSearchActivity extends Activity
         
         super.onCreateOptionsMenu( menu );
         
-        menu.add( Menu.NONE, ID_SEARCH_URL, Menu.NONE, R.string.searchurl );
+        menu.add( Menu.NONE, ID_SEARCH_URL, Menu.NONE, R.string.preferences );
         
         return true;
     }
@@ -155,7 +179,7 @@ public class WikiSearchActivity extends Activity
         switch ( itemId )
         {
             case ID_SEARCH_URL:
-                startActivity( new Intent( this, EditUrlActivity.class ) );
+                startActivity( new Intent( this, PrefActivity.class ) );
                 return true;
             
             default:
