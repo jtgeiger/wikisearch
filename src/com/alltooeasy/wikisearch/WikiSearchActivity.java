@@ -20,10 +20,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,7 +52,31 @@ public class WikiSearchActivity extends Activity
 //==================================================
 
     public WikiSearchActivity(){}   //No-op.
+
+//==================================================
     
+    private void invokeSearch()
+    {
+        EditText fldTopic = (EditText)findViewById( R.id.editText1 );
+        String topic = fldTopic.getText().toString();
+        //SharedPreferences prefs = getPreferences( MODE_PRIVATE );
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( WikiSearchActivity.this );
+        Map<String, ?> allPrefs = prefs.getAll();
+        Log.i( TAG, "All prefs: \n" + allPrefs );
+        String pref_url = getString( R.string.pref_searchurl );
+        String gotUrl = prefs.getString( pref_url, null );
+        Log.i( TAG, "Url pref \"" + pref_url + "\"=\"" + gotUrl + "\"" );
+        if ( gotUrl == null || gotUrl.trim().length() == 0 )
+        {
+            gotUrl = getString( R.string.defaultSearchUrl );
+            Log.i( TAG, "Using default URL." );
+        }
+        Log.i( TAG, "Target url=\"" + gotUrl + "\"" );
+        String url = gotUrl.replace( SEARCH_VAR, topic );
+        Log.i( TAG, "Final url=\"" + url + "\"" );
+        launch( url );
+    }
+
 //==================================================
     
     private void launch( String uri )
@@ -104,12 +130,11 @@ public class WikiSearchActivity extends Activity
      // Check to see if a recognition activity is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
-          new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+          new Intent( RecognizerIntent.ACTION_RECOGNIZE_SPEECH ), 0 );
         if ( activities.size() != 0 )
         {
             speakButton.setOnClickListener( new OnClickListener()
             {
-                
                 @Override
                 public void onClick( View v )
                 {
@@ -120,35 +145,34 @@ public class WikiSearchActivity extends Activity
         else
         {
             Log.i( TAG, "Speech Recognizer not present." );
-            speakButton.setEnabled(false);
+            speakButton.setEnabled( false );
         }
         
         //launch( "http://www.alltooeasy.com" );
         Button btnSearch = (Button)findViewById( R.id.button1 );
         btnSearch.setOnClickListener( new OnClickListener()
             {
-                
                 @Override
                 public void onClick( View v )
                 {
-                    EditText fldTopic = (EditText)findViewById( R.id.editText1 );
-                    String topic = fldTopic.getText().toString();
-                    //SharedPreferences prefs = getPreferences( MODE_PRIVATE );
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( WikiSearchActivity.this );
-                    Map<String, ?> allPrefs = prefs.getAll();
-                    Log.i( TAG, "All prefs: \n" + allPrefs );
-                    String pref_url = getString( R.string.pref_searchurl );
-                    String gotUrl = prefs.getString( pref_url, null );
-                    Log.i( TAG, "Url pref \"" + pref_url + "\"=\"" + gotUrl + "\"" );
-                    if ( gotUrl == null || gotUrl.trim().length() == 0 )
+                    invokeSearch();
+                }
+            } );
+        
+        View editText = findViewById( R.id.editText1 );
+        editText.setOnKeyListener( new OnKeyListener()
+            {
+                @Override
+                public boolean onKey( View v, int keyCode, KeyEvent event )
+                {
+                    if ( event.getAction() == KeyEvent.ACTION_DOWN &&
+                          keyCode == KeyEvent.KEYCODE_ENTER )
                     {
-                        gotUrl = getString( R.string.defaultSearchUrl );
-                        Log.i( TAG, "Using default URL." );
+                        invokeSearch();
+                        return true;
                     }
-                    Log.i( TAG, "Target url=\"" + gotUrl + "\"" );
-                    String url = gotUrl.replace( SEARCH_VAR, topic );
-                    Log.i( TAG, "Final url=\"" + url + "\"" );
-                    launch( url );
+                    
+                    return false;
                 }
             } );
     }
