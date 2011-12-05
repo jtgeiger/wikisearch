@@ -186,7 +186,8 @@ public class WikiSearchActivity extends Activity
         
         super.onCreateOptionsMenu( menu );
         
-        menu.add( Menu.NONE, ID_SEARCH_URL, Menu.NONE, R.string.preferences );
+        menu.add( Menu.NONE, ID_SEARCH_URL, Menu.NONE, R.string.preferences )
+           .setIcon( android.R.drawable.ic_menu_preferences );
         
         return true;
     }

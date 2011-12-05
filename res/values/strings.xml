@@ -7,5 +7,5 @@
     <string name="editUrlInstruction">Define the target search URL. Use %s to insert the search term.</string>
     <string name="defaultSearchUrl">http://en.wikipedia.org/wiki/Special:Search?search=%s</string>
     <string name="pref_searchurl">pref_searchurl</string>
-    <string name="preferences">Preferences</string>
+    <string name="preferences">Settings</string>
 </resources>
