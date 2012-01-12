@@ -74,7 +74,10 @@ public class WikiSearchActivity extends Activity
         Log.i( TAG, "Target url=\"" + gotUrl + "\"" );
         String url = gotUrl.replace( SEARCH_VAR, topic );
         Log.i( TAG, "Final url=\"" + url + "\"" );
+
         launch( url );
+        
+        fldTopic.setText( "" );
     }
 
 //==================================================
@@ -220,8 +223,6 @@ public class WikiSearchActivity extends Activity
         Log.i( TAG, getClass().getName() + ".onResume." );
         
         super.onResume();
-//        final EditText fldTopic = (EditText)findViewById( R.id.editText1 );
-//        fldTopic.setText( "" );
     }
     
 //==================================================
