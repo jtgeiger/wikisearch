@@ -8,7 +8,7 @@
 | 09/26/11  JTG  Original version.
 |=======================================================================*/
 
-package com.alltooeasy.wikisearch;
+package com.alltooeasy.wikisearch.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.alltooeasy.wikisearch.ui.PrefActivity;
+import com.alltooeasy.wikisearch.R;
 
 import java.util.ArrayList;
 import java.util.List;
