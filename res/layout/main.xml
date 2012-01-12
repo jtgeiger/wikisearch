@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/editText1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:hint="@string/topic"
@@ -21,6 +21,7 @@
         android:id="@+id/btnSpeak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/btnSpeakDescription"
         android:src="@android:drawable/ic_btn_speak_now" />
 
 </LinearLayout>
