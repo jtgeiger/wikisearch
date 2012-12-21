@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:hint="@string/topic"
-        android:singleLine="true" />
+        android:inputType="text" />
 
     <ImageButton
         android:id="@+id/btnSpeak"
